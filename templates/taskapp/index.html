@@ -1,0 +1,325 @@
+{% extends 'partials/base.html' %}
+
+{% block title %} Home {% endblock %}  
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="row my-4">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header">Statistics</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card shadow my-card">
+                                <div class="card-body">
+                                    <p>
+                                        <i class="bi bi-list-stars text-primary"></i>
+                                        <span class="mx-1">Total Task</span>
+                                    </p>
+                                    <h5 class="text-center">{{ total_data }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card shadow my-card">
+                                <div class="card-body">
+                                    <p>
+                                        <i class="bi bi-check2-square text-success"></i>
+                                        <span class="mx-1">Completed Task</span>
+                                    </p>
+                                    <h5 class="text-center">{{ complete_task }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card shadow my-card">
+                                <div class="card-body">
+                                    <p>
+                                        <i class="bi bi-x-octagon text-warning"></i>
+                                        <span class="mx-1">Uncompleted Task</span>
+                                    </p>
+                                    <h5 class="text-center">{{ uncompleted_task}}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-header">Task Form</div>
+                <div class="card-body">
+                    <form class="d-grid" method="POST">
+                        {% csrf_token %}
+                        {{ form |crispy }}
+                        <input class="btn btn-success btn-sm my-2" type="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row my-4">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header">Graph</div>
+            <div class="card-body">
+                <div>
+                    <canvas id="myChart" width="100" height="50" style="display: block; box-sizing: border-box; height: 50px; width: 100px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="list-group">
+            <div class="list-group-item">Task List</div>
+            {% for task in data %}
+            <div class="list-group-item">
+                <small class="text-muted">{{ task.date }}</small>
+                <div class="row">
+                    <div class="col-md-8">
+                        {% if task.isComplete %}
+                        <del><p>{{ task.task }}</p></del>
+                        {% else %}
+                        <p>{{ task.task }}</p>
+                        {% endif %}     
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <a class="btn btn-info btn-sm" href="{% url 'taskapp-edit' task.id %}">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="{% url 'taskapp-delete' task.id %}">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+            <!-- <div class="list-group-item">
+                <small class="text-muted">March 20, 2022, 4:17 p.m.</small>
+                <div class="row">
+                    <div class="col-md-8">
+                        
+                        <p>J</p>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <a class="btn btn-info btn-sm" href="/update/59/">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="/delete/59/">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="list-group-item">
+                <small class="text-muted">March 19, 2022, 11:57 a.m.</small>
+                <div class="row">
+                    <div class="col-md-8">
+                        
+                        <p>Rydee de3 the engineering atraa me</p>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <a class="btn btn-info btn-sm" href="/update/56/">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="/delete/56/">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="list-group-item">
+                <small class="text-muted">March 18, 2022, 11:10 p.m.</small>
+                <div class="row">
+                    <div class="col-md-8">
+                        
+                        <p>there is no first position in uni. Dont be selfish</p>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <a class="btn btn-info btn-sm" href="/update/55/">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="/delete/55/">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="list-group-item">
+                <small class="text-muted">March 18, 2022, 11:07 p.m.</small>
+                <div class="row">
+                    <div class="col-md-8">
+                        
+                        <del><p>some of you are really wicked</p></del>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <a class="btn btn-info btn-sm" href="/update/54/">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="/delete/54/">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="list-group-item">
+                <small class="text-muted">March 18, 2022, 8:21 p.m.</small>
+                <div class="row">
+                    <div class="col-md-8">
+                        
+                        <p>Ei Ato🤣🤣🤣🤣🤣🤣</p>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <a class="btn btn-info btn-sm" href="/update/52/">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="/delete/52/">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="list-group-item">
+                <small class="text-muted">March 18, 2022, 3:13 p.m.</small>
+                <div class="row">
+                    <div class="col-md-8">
+                        
+                        <p>so me p3 im gnashing in engineering</p>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <a class="btn btn-info btn-sm" href="/update/50/">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="/delete/50/">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="list-group-item">
+                <small class="text-muted">March 18, 2022, 11:58 a.m.</small>
+                <div class="row">
+                    <div class="col-md-8">
+                        
+                        <del><p>Agenda🤣🤣</p></del>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <a class="btn btn-info btn-sm" href="/update/48/">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="/delete/48/">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="list-group-item">
+                <small class="text-muted">March 18, 2022, 11:26 a.m.</small>
+                <div class="row">
+                    <div class="col-md-8">
+                        
+                        <del><p>Css</p></del>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <a class="btn btn-info btn-sm" href="/update/47/">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="/delete/47/">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="list-group-item">
+                <small class="text-muted">March 2, 2022, 3:17 p.m.</small>
+                <div class="row">
+                    <div class="col-md-8">
+                        
+                        <p>More than 50acres of engineering pains</p>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <a class="btn btn-info btn-sm" href="/update/40/">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="/delete/40/">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="list-group-item">
+                <small class="text-muted">March 2, 2022, 3:16 p.m.</small>
+                <div class="row">
+                    <div class="col-md-8">
+                        
+                        <p>Enam dates Felix</p>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <a class="btn btn-info btn-sm" href="/update/38/">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="/delete/38/">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="list-group-item">
+                <small class="text-muted">March 2, 2022, 3:08 p.m.</small>
+                <div class="row">
+                    <div class="col-md-8">
+                        
+                        <p>Jay you have nothing to download 😅</p>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <a class="btn btn-info btn-sm" href="/update/37/">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="/delete/37/">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="list-group-item">
+                <small class="text-muted">March 2, 2022, 3:04 p.m.</small>
+                <div class="row">
+                    <div class="col-md-8">
+                        
+                        <p>Kofi Nyame is a son of Hitler</p>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <a class="btn btn-info btn-sm" href="/update/36/">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="/delete/36/">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="list-group-item">
+                <small class="text-muted">March 2, 2022, 2:57 p.m.</small>
+                <div class="row">
+                    <div class="col-md-8">
+                        
+                        <p>Jay please I want to buy a plot of land</p>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <a class="btn btn-info btn-sm" href="/update/32/">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="/delete/32/">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            
+        </div>
+    </div>
+    </div>
+</div>
+{% include 'partials/graph.html' %}
+{% endblock %}

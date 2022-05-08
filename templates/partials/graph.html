@@ -1,0 +1,46 @@
+<!--Chartjs-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
+<!--Chartjs-->
+<script>
+    const labels = ["Total", "Completed", "Uncompleted"];
+
+    const data = {
+        labels: labels,
+        datasets: [
+            {
+                label: "Task Graph",
+                backgroundColor: [
+                    "rgb(255, 99, 132)",
+                    "rgb(25, 99, 132)",
+                    "rgb(55, 29, 132)",
+                ],
+                borderWidth: 1,
+                borderColor: "rgb(255, 99, 132)",
+                data: [{{ total_data }}, {{ complete_task }}, {{ uncompleted_task }}],
+            },
+        ],
+
+        
+        
+    };
+
+    options: {
+        scales: {
+            y:{
+                beginAtZero: true
+            }
+        }
+    }
+
+
+
+    const config = {
+        type: "bar",
+        data: data,
+        options: {},
+    };
+    </script>
+    <script>
+        const myChart = new Chart(document.getElementById("myChart"), config);
+    </script>
